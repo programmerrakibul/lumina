@@ -5,9 +5,9 @@ import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { LogIn } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useAuth } from "@/hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
 
-export default function LoginPage() {
+const LoginPage = () => {
   const { login } = useAuth();
   const router = useRouter();
 
@@ -23,7 +23,7 @@ export default function LoginPage() {
 
       if (res.success) {
         toast.success("Successfully logged in!");
-        router.push("/add-item");
+        router.push("/add-product");
       }
     } catch {
       toast.error("Login failed. Please try again.");
@@ -60,6 +60,7 @@ export default function LoginPage() {
                 type="email"
                 className="input-field"
                 placeholder="you@example.com"
+                defaultValue="rakibul@gmail.com"
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -84,6 +85,7 @@ export default function LoginPage() {
                 type="password"
                 className="input-field"
                 placeholder="••••••••"
+                defaultValue="password123"
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
@@ -101,7 +103,6 @@ export default function LoginPage() {
           </div>
 
           <button
-            type="submit"
             disabled={isSubmitting}
             className="w-full btn-primary py-3 text-lg"
           >
@@ -111,4 +112,6 @@ export default function LoginPage() {
       </motion.div>
     </section>
   );
-}
+};
+
+export default LoginPage;

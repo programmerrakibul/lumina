@@ -1,19 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { ShoppingBag, Menu, X } from "lucide-react";
-// import { useAuth } from "@/hooks/useAuth";
-// import ThemeToggle from "./ThemeToggle";
+import { ShoppingBag, Menu, X, User } from "lucide-react";
 import Link from "next/link";
 import Container from "../ui/Container";
+import useAuth from "@/hooks/useAuth";
 
-export default function Navbar() {
+const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // const { isAuthenticated, isLoading, logout } = useAuth();
+  const { isAuthenticated, isLoading, logout } = useAuth();
 
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "Add Product", href: "/add-product" },
     { name: "Products", href: "/products" },
     { name: "About Us", href: "/about-us" },
     { name: "Support", href: "/support" },
@@ -48,21 +46,21 @@ export default function Navbar() {
 
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
-            {/* <ThemeToggle /> */}
-
-            {/* {!isLoading && (
+            {isLoading ? (
+              <p>Loading..</p>
+            ) : (
               <>
                 {isAuthenticated ? (
                   <>
                     <Link
-                      href="/add-item"
-                      className="hidden md:inline-flex items-center justify-center px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors"
+                      href="/add-product"
+                      className="hidden md:inline-flex items-center justify-center px-4 py-2 rounded-lg bg-primary-600 text-black hover:bg-primary-700 transition-colors"
                     >
                       Add Product
                     </Link>
                     <button
                       onClick={logout}
-                      className="hidden md:inline-flex items-center justify-center px-4 py-2 rounded-lg bg-gray-100 dark:bg-dark-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-700 transition-colors"
+                      className="hidden md:inline-flex items-center justify-center px-4 py-2 rounded-lg bg-gray-100 text-black hover:bg-gray-200 dark:hover:bg-dark-700 transition-colors"
                     >
                       Logout
                     </button>
@@ -75,13 +73,13 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href="/login"
-                    className="hidden md:inline-flex items-center justify-center px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors"
+                    className="hidden md:inline-flex items-center justify-center px-4 py-2 rounded-lg bg-primary-600 text-black hover:bg-primary-700 transition-colors"
                   >
                     Login
                   </Link>
                 )}
               </>
-            )} */}
+            )}
 
             {/* Mobile menu button */}
             <button
@@ -149,4 +147,6 @@ export default function Navbar() {
       </Container>
     </nav>
   );
-}
+};
+
+export default Navbar;

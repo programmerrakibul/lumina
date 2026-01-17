@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Navbar from "@/components/shared/Navbar";
 import "./globals.css";
 import Footer from "@/components/shared/Footer";
+import { AuthProvider } from "@/hooks/useAuth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,20 +13,22 @@ const RootLayout = ({ children }) => {
       <body
         className={`${inter.className} bg-white dark:bg-dark-900 transition-colors`}
       >
-        <header>
-          <Navbar />
-        </header>
+        <AuthProvider>
+          <header>
+            <Navbar />
+          </header>
 
-        <main className="space-y-16 md:space-y-24">{children}</main>
+          <main className="space-y-16 md:space-y-24">{children}</main>
 
-        <Footer />
+          <Footer />
 
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            className: "dark:bg-dark-800 dark:text-white",
-          }}
-        />
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              className: "dark:bg-dark-800 dark:text-white",
+            }}
+          />
+        </AuthProvider>
       </body>
     </html>
   );
