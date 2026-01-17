@@ -4,8 +4,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Upload, X } from "lucide-react";
-import Image from "next/image";
 import { uploadImage } from "@/utils/uploadImage";
 
 const AddProductForm = () => {

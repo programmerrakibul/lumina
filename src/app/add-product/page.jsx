@@ -1,13 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import AddProductForm from "@/components/forms/AddProductForm";
 
 const AddProductPage = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   return (
     <>
       <section className="py-10">
@@ -26,15 +23,7 @@ const AddProductPage = () => {
               </p>
             </div>
 
-            <AddProductForm onSubmittingChange={setIsSubmitting} />
-
-            {isSubmitting && (
-              <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                <p className="text-blue-700 dark:text-blue-400 text-center">
-                  Submitting product...
-                </p>
-              </div>
-            )}
+            <AddProductForm />
           </motion.div>
         </Container>
       </section>
