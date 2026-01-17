@@ -3,8 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 
-const AUTH_TOKEN =
-  "8f3b6c1f4e6a9c1d2b7a4f9c3e8d1a6b5c7f2e9d4a1b8c6f3d5e7a9b2c4";
+const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
 
 const AuthContext = createContext(null);
 
@@ -12,11 +11,13 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log({ authToken });
+
   useEffect(() => {
     const token = getCookie("auth-token");
 
     const timeoutId = setTimeout(() => {
-      setIsAuthenticated(token === AUTH_TOKEN);
+      setIsAuthenticated(token === authToken);
       setIsLoading(false);
     }, 0);
 
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }) => {
       throw new Error("Invalid credentials");
     }
 
-    document.cookie = `auth-token=${AUTH_TOKEN}; path=/; max-age=604800`;
+    document.cookie = `auth-token=${authToken}; path=/; max-age=604800`;
     setIsAuthenticated(true);
 
     return { success: true };
