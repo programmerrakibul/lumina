@@ -10,6 +10,7 @@ import {
   ChevronRight,
   CheckCircle,
 } from "lucide-react";
+import Container from "./Container";
 
 const testimonials = [
   {
@@ -103,7 +104,7 @@ const TestimonialsSection = () => {
 
   return (
     <section className="py-16 md:py-24">
-      <div className="container mx-auto px-4">
+      <Container>
         <div className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -391,7 +392,7 @@ const TestimonialsSection = () => {
             </motion.div>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 };

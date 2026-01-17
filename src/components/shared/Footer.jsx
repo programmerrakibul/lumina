@@ -12,6 +12,7 @@ import {
   Phone,
   MapPin,
 } from "lucide-react";
+import Container from "../ui/Container";
 
 const footerLinks = {
   categories: [
@@ -59,9 +60,9 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 dark:bg-dark-900 text-gray-300">
+    <footer className="py-12 bg-gray-900 dark:bg-dark-900 text-gray-300">
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 py-12">
+      <Container>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand Column */}
           <div className="lg:col-span-2">
@@ -162,7 +163,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
 
       {/* Bottom Section */}
       <div className="bg-gray-950 dark:bg-black py-8">

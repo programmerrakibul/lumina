@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Smartphone, Shirt, Book, Home, Dumbbell, Heart } from "lucide-react";
+import Container from "./Container";
 
 const categories = [
   {
@@ -73,7 +74,7 @@ const CategoriesSection = () => {
 
   return (
     <section className="py-16 md:py-24">
-      <div className="container mx-auto px-4">
+      <Container>
         <div className="text-center mb-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -211,7 +212,7 @@ const CategoriesSection = () => {
             ))}
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 };

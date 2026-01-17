@@ -2,11 +2,12 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
+import Container from "./Container";
 
 const HeroSection = () => {
   return (
-    <section className="relative overflow-hidden">
-      <div className="container mx-auto px-4 py-16 md:py-24">
+    <section className="relative overflow-hidden  py-16 md:py-24">
+      <Container>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -62,7 +63,7 @@ const HeroSection = () => {
             </div>
           </motion.div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 };

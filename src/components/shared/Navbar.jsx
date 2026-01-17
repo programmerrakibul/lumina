@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ShoppingBag, User, Moon, Sun, Menu, X } from "lucide-react";
+import { ShoppingBag, Menu, X } from "lucide-react";
 // import { useAuth } from "@/hooks/useAuth";
 // import ThemeToggle from "./ThemeToggle";
 import Link from "next/link";
+import Container from "../ui/Container";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -12,6 +13,7 @@ export default function Navbar() {
 
   const navigation = [
     { name: "Home", href: "/" },
+    { name: "Add Product", href: "/add-product" },
     { name: "Products", href: "/products" },
     { name: "About Us", href: "/about-us" },
     { name: "Support", href: "/support" },
@@ -19,7 +21,7 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-white/80 dark:bg-dark-900/80 backdrop-blur-md border-b border-gray-200 dark:border-dark-700">
-      <div className="container mx-auto px-4">
+      <Container>
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
@@ -144,7 +146,7 @@ export default function Navbar() {
             </div>
           </div>
         )}
-      </div>
+      </Container>
     </nav>
   );
 }

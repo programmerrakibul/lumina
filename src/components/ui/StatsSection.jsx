@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Users, Package, Truck, Shield, Award, Clock } from "lucide-react";
+import Container from "./Container";
 
 const stats = [
   {
@@ -126,7 +127,7 @@ const StatsSection = () => {
 
   return (
     <section className="py-16 md:py-24 bg-linear-to-b from-gray-50 to-white dark:from-dark-800 dark:to-dark-900">
-      <div className="container mx-auto px-4">
+      <Container>
         <div className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -264,7 +265,7 @@ const StatsSection = () => {
             </svg>
           </div>
         </motion.div>
-      </div>
+      </Container>
     </section>
   );
 };

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Check, Shield, Gift, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import Container from "./Container";
 
 const NewsletterSection = () => {
   const [email, setEmail] = useState("");
@@ -66,7 +67,7 @@ const NewsletterSection = () => {
       <div className="absolute top-10 left-10 w-32 h-32 bg-primary-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-10 right-10 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl" />
 
-      <div className="container mx-auto px-4 relative z-10">
+      <Container className="relative z-10">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -283,7 +284,7 @@ const NewsletterSection = () => {
             </div>
           </motion.div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 };
