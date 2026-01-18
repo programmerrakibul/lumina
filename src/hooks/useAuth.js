@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
 
@@ -10,8 +11,7 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
-  console.log({ authToken });
+  const router = useRouter();
 
   useEffect(() => {
     const token = getCookie("auth-token");
@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }) => {
     document.cookie =
       "auth-token=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     setIsAuthenticated(false);
+    router.push("/login");
   };
 
   return (

@@ -72,7 +72,7 @@ const Navbar = () => {
                   </>
                 ) : (
                   <Link
-                    href="/login"
+                    href="/login?callbackUrl=/"
                     className="hidden md:inline-flex items-center justify-center px-4 py-2 rounded-lg bg-primary-600 text-black hover:bg-primary-700 transition-colors"
                   >
                     Login

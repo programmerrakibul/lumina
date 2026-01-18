@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { LogIn } from "lucide-react";
@@ -10,6 +10,8 @@ import useAuth from "@/hooks/useAuth";
 const LoginPage = () => {
   const { login } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
 
   const {
     register,
@@ -23,7 +25,7 @@ const LoginPage = () => {
 
       if (res.success) {
         toast.success("Successfully logged in!");
-        router.push("/add-product");
+        router.push(callbackUrl || "/");
       }
     } catch {
       toast.error("Login failed. Please try again.");

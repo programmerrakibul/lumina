@@ -3,11 +3,10 @@ import { cookies } from "next/headers";
 
 export const proxy = async (req) => {
   const path = req.nextUrl.pathname;
-  const loginPath = new URL("/login", req.url);
-
   const isProtectedRoute = path.startsWith("/add-product");
 
   if (isProtectedRoute) {
+    const loginPath = new URL(`/login?callbackUrl=${path}`, req.url);
     const cookieStore = await cookies();
     const authToken = cookieStore.get("auth-token");
 
