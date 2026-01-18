@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { sleep } from "@/utils/sleep";
 
 const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
 
@@ -16,17 +17,16 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = getCookie("auth-token");
 
-    const timeoutId = setTimeout(() => {
+    (async () => {
+      await sleep(1000);
       setIsAuthenticated(token === authToken);
       setIsLoading(false);
-    }, 0);
-
-    return () => clearTimeout(timeoutId);
+    })();
   }, []);
 
   const login = async (email, password) => {
-    const hardcodedEmail = "rakibul@gmail.com";
-    const hardcodedPassword = "password123";
+    const hardcodedEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL;
+    const hardcodedPassword = process.env.NEXT_PUBLIC_DEMO_PASS;
 
     if (email !== hardcodedEmail || password !== hardcodedPassword) {
       throw new Error("Invalid credentials");
