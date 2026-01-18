@@ -1,215 +1,364 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { Smartphone, Shirt, Book, Home, Dumbbell, Heart } from "lucide-react";
+import {
+  Smartphone,
+  Shirt,
+  Book,
+  Home,
+  Dumbbell,
+  Heart,
+  ChevronRight,
+  TrendingUp,
+  Shield,
+  Truck,
+  Clock,
+} from "lucide-react";
 import Container from "./Container";
 
 const categories = [
   {
     id: 1,
     name: "Electronics",
-    description: "Latest gadgets & devices",
-    count: 245,
-    image: "https://images.unsplash.com/photo-1550009158-9ebf69173e03",
+    description: "Latest gadgets & smart devices",
+    count: "245+ Items",
+    image:
+      "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=800&h=600&fit=crop",
     icon: Smartphone,
-    color: "bg-blue-500",
-    gradient: "from-blue-500 to-cyan-500",
+    color: "bg-blue-100",
+    textColor: "text-blue-600",
+    borderColor: "border-blue-200",
+    gradient: "from-blue-400 to-blue-600",
+    trending: true,
   },
   {
     id: 2,
     name: "Fashion",
     description: "Trendy clothes & accessories",
-    count: 189,
-    image: "https://images.unsplash.com/photo-1445205170230-053b83016050",
+    count: "189+ Items",
+    image:
+      "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop",
     icon: Shirt,
-    color: "bg-pink-500",
-    gradient: "from-pink-500 to-rose-500",
+    color: "bg-pink-100",
+    textColor: "text-pink-600",
+    borderColor: "border-pink-200",
+    gradient: "from-pink-400 to-rose-500",
+    trending: true,
   },
   {
     id: 3,
-    name: "Books",
+    name: "Books & Media",
     description: "Educational & entertaining reads",
-    count: 156,
-    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c",
+    count: "156+ Items",
+    image:
+      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&h=600&fit=crop",
     icon: Book,
-    color: "bg-amber-500",
-    gradient: "from-amber-500 to-orange-500",
+    color: "bg-amber-100",
+    textColor: "text-amber-600",
+    borderColor: "border-amber-200",
+    gradient: "from-amber-400 to-orange-500",
+    trending: false,
   },
   {
     id: 4,
     name: "Home & Living",
     description: "Furniture & decor items",
-    count: 312,
-    image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
+    count: "312+ Items",
+    image:
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop",
     icon: Home,
-    color: "bg-emerald-500",
-    gradient: "from-emerald-500 to-teal-500",
+    color: "bg-emerald-100",
+    textColor: "text-emerald-600",
+    borderColor: "border-emerald-200",
+    gradient: "from-emerald-400 to-teal-500",
+    trending: true,
   },
   {
     id: 5,
     name: "Sports & Fitness",
     description: "Equipment & accessories",
-    count: 134,
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b",
+    count: "134+ Items",
+    image:
+      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop",
     icon: Dumbbell,
-    color: "bg-purple-500",
-    gradient: "from-purple-500 to-violet-500",
+    color: "bg-purple-100",
+    textColor: "text-purple-600",
+    borderColor: "border-purple-200",
+    gradient: "from-purple-400 to-violet-500",
+    trending: false,
   },
   {
     id: 6,
     name: "Beauty & Health",
     description: "Skincare & wellness products",
-    count: 278,
-    image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881",
+    count: "278+ Items",
+    image:
+      "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&h=600&fit=crop",
     icon: Heart,
-    color: "bg-red-500",
-    gradient: "from-red-500 to-pink-500",
+    color: "bg-red-100",
+    textColor: "text-red-600",
+    borderColor: "border-red-200",
+    gradient: "from-red-400 to-pink-500",
+    trending: true,
+  },
+];
+
+const stats = [
+  {
+    icon: Shield,
+    value: "100%",
+    label: "Authentic Products",
+    color: "text-green-600",
+    bg: "bg-green-100",
+  },
+  {
+    icon: Truck,
+    value: "Free",
+    label: "Shipping Over $50",
+    color: "text-blue-600",
+    bg: "bg-blue-100",
+  },
+  {
+    icon: Clock,
+    value: "24/7",
+    label: "Customer Support",
+    color: "text-purple-600",
+    bg: "bg-purple-100",
+  },
+  {
+    icon: TrendingUp,
+    value: "10K+",
+    label: "Happy Customers",
+    color: "text-amber-600",
+    bg: "bg-amber-100",
   },
 ];
 
 const CategoriesSection = () => {
-  const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className="py-16 md:py-24">
-      <Container>
-        <div className="text-center mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              Shop by Category
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Explore our wide range of categories to find exactly what
-              you&apos;re looking for
-            </p>
-          </motion.div>
+    <section
+      ref={sectionRef}
+      className="relative py-12 sm:py-16 md:py-20 lg:py-24 bg-linear-to-b from-white to-gray-50 overflow-hidden"
+    >
+      {/* Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-50"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-50 rounded-full blur-3xl opacity-50"></div>
+      </div>
+
+      <Container className="relative">
+        {/* Section Header */}
+        <div className="text-center mb-10 sm:mb-12 md:mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-100 to-purple-100 text-gray-800 rounded-full border border-gray-200 mb-4 sm:mb-6">
+            <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+            <span className="text-sm sm:text-base font-semibold">
+              Trending Categories
+            </span>
+          </div>
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
+            <span className="block">Shop By</span>
+            <span className="block bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Category
+            </span>
+          </h2>
+
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Explore our curated collections across different categories. Find
+            exactly what you need with our wide selection.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categories.map((category, index) => (
-            <motion.div
-              key={category.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              onMouseEnter={() => setHoveredCategory(category.id)}
-              onMouseLeave={() => setHoveredCategory(null)}
-              className="group relative overflow-hidden rounded-2xl cursor-pointer"
-            >
-              {/* Background Image */}
-              <div className="relative h-64 md:h-72">
-                <Image
-                  src={category.image}
-                  alt={category.name}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-16">
+          {categories.map((category, index) => {
+            const isActive = activeCategory === category.id;
+            const animationDelay = index * 100;
 
-                {/* Gradient Overlay */}
-                <div
-                  className={`absolute inset-0 bg-linear-to-br ${category.gradient} opacity-0 group-hover:opacity-90 transition-opacity duration-300`}
-                />
+            return (
+              <div
+                key={category.id}
+                className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl border-2 ${category.borderColor} bg-white transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] ${
+                  isActive ? "ring-2 ring-blue-500 shadow-xl" : ""
+                }`}
+                onMouseEnter={() => setActiveCategory(category.id)}
+                onMouseLeave={() => setActiveCategory(null)}
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: `opacity 0.5s ease ${animationDelay}ms, transform 0.5s ease ${animationDelay}ms, border-color 0.3s ease, box-shadow 0.3s ease`,
+                }}
+              >
+                {/* Category Image */}
+                <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden">
+                  <Image
+                    src={category.image}
+                    alt={category.name}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    priority={index < 3}
+                  />
 
-                {/* Content Overlay */}
-                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent p-6 flex flex-col justify-end">
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent"></div>
+
+                  {/* Badge */}
+                  {category.trending && (
+                    <div className="absolute top-4 left-4">
+                      <div className="flex items-center gap-1 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-full">
+                        <TrendingUp className="w-3 h-3 text-green-600" />
+                        <span className="text-xs font-semibold text-gray-900">
+                          Trending
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Icon */}
                   <div
-                    className={`${category.color} w-12 h-12 rounded-xl flex items-center justify-center mb-4 transform group-hover:scale-110 transition-transform duration-300`}
+                    className={`absolute top-4 right-4 ${category.color} w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center shadow-lg`}
                   >
-                    <category.icon className="h-6 w-6 text-white" />
-                  </div>
-
-                  {/* Category Info */}
-                  <div>
-                    <h3 className="text-2xl font-bold text-white mb-2">
-                      {category.name}
-                    </h3>
-                    <p className="text-gray-200 mb-3">{category.description}</p>
-
-                    {/* Item Count */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-300">
-                        {category.count} items
-                      </span>
-
-                      {/* Shop Now Button */}
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-white text-sm font-medium hover:bg-white/30 transition-colors"
-                      >
-                        Shop Now →
-                      </motion.button>
-                    </div>
+                    <category.icon
+                      className={`w-6 h-6 sm:w-7 sm:h-7 ${category.textColor}`}
+                    />
                   </div>
                 </div>
 
-                {/* Hover Effect Border */}
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-white/30 rounded-2xl transition-all duration-300" />
-              </div>
+                {/* Category Content */}
+                <div className="p-5 sm:p-6 md:p-8">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                    {category.name}
+                  </h3>
 
-              {/* Floating Badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={
-                  hoveredCategory === category.id
-                    ? { opacity: 1, scale: 1 }
-                    : {}
-                }
-                className="absolute top-4 right-4 bg-white dark:bg-dark-800 text-gray-900 dark:text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg"
-              >
-                Popular
-              </motion.div>
-            </motion.div>
-          ))}
+                  <p className="text-gray-600 text-sm sm:text-base mb-4">
+                    {category.description}
+                  </p>
+
+                  <div className="flex items-center justify-between">
+                    <span
+                      className={`text-sm font-semibold ${category.textColor}`}
+                    >
+                      {category.count}
+                    </span>
+
+                    <button className="group flex items-center gap-2 px-4 py-2.5 bg-linear-to-r from-blue-50 to-purple-50 text-gray-800 font-semibold rounded-lg hover:from-blue-100 hover:to-purple-100 transition-all duration-300">
+                      <span className="text-sm sm:text-base">Shop Now</span>
+                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Hover Effect */}
+                <div
+                  className={`absolute inset-0 bg-linear-to-br ${category.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300 pointer-events-none`}
+                ></div>
+              </div>
+            );
+          })}
         </div>
 
-        {/* View All Button */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <button className="inline-flex items-center px-8 py-4 bg-linear-to-r from-primary-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-xl hover:shadow-primary-500/25 transition-all duration-300">
-            View All Categories
-            <span className="ml-2">⟶</span>
-          </button>
-        </motion.div>
+        {/* Stats Section */}
+        <div className="bg-linear-to-r from-blue-50 to-purple-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 border border-gray-200 shadow-lg">
+          <div className="text-center mb-8 sm:mb-12">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+              Why Shop With Us?
+            </h3>
+            <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">
+              We&apos;re committed to providing the best shopping experience for
+              our customers
+            </p>
+          </div>
 
-        {/* Stats Banner */}
-        <div className="mt-16 bg-linear-to-r from-primary-500/10 to-purple-500/10 dark:from-primary-500/5 dark:to-purple-500/5 rounded-2xl p-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { value: "10K+", label: "Products" },
-              { value: "500+", label: "Brands" },
-              { value: "50K+", label: "Customers" },
-              { value: "24/7", label: "Support" },
-            ].map((stat, index) => (
-              <motion.div
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {stats.map((stat, index) => (
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center"
+                className="bg-white rounded-xl p-5 sm:p-6 text-center shadow-lg border border-gray-100"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: `opacity 0.5s ease ${index * 100}ms, transform 0.5s ease ${index * 100}ms`,
+                }}
               >
-                <div className="text-4xl md:text-5xl font-bold text-primary-600 dark:text-primary-400 mb-2">
+                <div
+                  className={`${stat.bg} w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center mx-auto mb-4`}
+                >
+                  <stat.icon
+                    className={`w-7 h-7 sm:w-8 sm:h-8 ${stat.color}`}
+                  />
+                </div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                   {stat.value}
                 </div>
-                <div className="text-gray-600 dark:text-gray-400 font-medium">
+                <div className="text-sm sm:text-base font-medium text-gray-600">
                   {stat.label}
                 </div>
-              </motion.div>
+              </div>
             ))}
+          </div>
+
+          {/* Additional Benefits */}
+          <div className="mt-8 sm:mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+            {[
+              { text: "Secure payment processing" },
+              { text: "Easy returns within 30 days" },
+              { text: "Price match guarantee" },
+            ].map((benefit, index) => (
+              <div key={index} className="flex items-center gap-3">
+                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center shrink-0">
+                  <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                </div>
+                <span className="text-gray-700 text-sm sm:text-base">
+                  {benefit.text}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="text-center mt-12 sm:mt-16 md:mt-20">
+          <div className="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-6 sm:p-8 bg-linear-to-r from-blue-600 to-purple-600 rounded-2xl sm:rounded-3xl shadow-xl">
+            <div className="text-left">
+              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                Can&apos;t find what you&apos;re looking for?
+              </h3>
+              <p className="text-blue-100 text-sm sm:text-base">
+                Browse our complete catalog or contact our support team
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button className="px-6 py-3 sm:px-8 sm:py-4 bg-white text-gray-900 font-semibold rounded-xl hover:bg-gray-50 transition-colors shadow-lg">
+                Browse All Categories
+              </button>
+              <button className="px-6 py-3 sm:px-8 sm:py-4 bg-transparent border-2 border-white text-white font-semibold rounded-xl hover:bg-white/10 transition-colors">
+                Contact Support
+              </button>
+            </div>
           </div>
         </div>
       </Container>
