@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, Sparkles, ShoppingBag, Check } from "lucide-react";
+import Container from "./Container";
 
 const HeroSection = () => {
   const features = [
@@ -31,7 +32,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+      <Container className="relative">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center">
           {/* Left Content */}
           <div className="text-center lg:text-left space-y-6 sm:space-y-8">
@@ -258,7 +259,7 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
 
       {/* Bottom Gradient */}
       <div className="absolute bottom-0 inset-x-0 h-32 bg-linear-to-t from-white to-transparent"></div>
