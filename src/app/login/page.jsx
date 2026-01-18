@@ -11,7 +11,7 @@ const LoginPage = () => {
   const { login } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
+  const callbackUrl = searchParams.get("callbackUrl") || '/';
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,7 +33,7 @@ const LoginPage = () => {
 
       if (res.success) {
         toast.success("Successfully logged in!");
-        router.push(callbackUrl || "/");
+        router.push(callbackUrl);
       }
     } catch {
       toast.error("Login failed. Please try again.");

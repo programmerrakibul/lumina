@@ -7,6 +7,10 @@ import { AuthProvider } from "@/hooks/useAuth";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const metadata = {
+  title: "LUMINA",
+};
+
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
