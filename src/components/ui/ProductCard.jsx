@@ -2,101 +2,123 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Star, ShoppingCart, Eye } from "lucide-react";
-import { motion } from "framer-motion";
+import { ShoppingCart, Eye, TrendingUp } from "lucide-react";
 
 const ProductCard = ({ product = {} }) => {
-  const {
-    _id,
-    name,
-    image,
-    description,
-    category,
-    stock,
-    reviews,
-    rating,
-    price,
-  } = product;
+  const { _id, name, imageURL, description, category, stock, rating, price } =
+    product;
+
+  const isTrending = rating >= 4.5;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="group card hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
-    >
-      <div className="relative aspect-square overflow-hidden rounded-lg mb-4">
+    <div className="group relative bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-gray-200 hover:border-blue-300 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+      {/* Trending Badge */}
+      {isTrending && (
+        <div className="absolute top-3 right-3 z-10">
+          <div className="flex items-center gap-1 px-3 py-1.5 bg-linear-to-r from-blue-600 to-purple-600 text-white text-xs font-bold rounded-full shadow-lg">
+            <TrendingUp className="w-3 h-3" />
+            <span>Trending</span>
+          </div>
+        </div>
+      )}
+
+      {/* Product Image */}
+      <div className="relative aspect-square overflow-hidden bg-gray-100">
         <Image
-          src={image || `https://picsum.photos/seed/${_id}/400/400`}
+          src={imageURL}
           alt={name}
           fill
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          loading="eager"
+          className="object-cover aspect-3/2 h-20 group-hover:scale-110 transition-transform duration-500"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          loading="lazy"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        {/* Gradient Overlay on Hover */}
+        <div className="absolute inset-0 bg-linear-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
         {/* Quick Actions */}
-        <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors">
-            <ShoppingCart className="h-4 w-4" />
+        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
+          <button
+            className="p-3 bg-white rounded-xl shadow-lg hover:shadow-xl hover:bg-gray-50 transition-all duration-200 hover:scale-110"
+            aria-label="Add to cart"
+          >
+            <ShoppingCart className="w-5 h-5 text-gray-700" />
           </button>
           <Link href={`/products/${_id}`}>
-            <button className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors">
-              <Eye className="h-4 w-4" />
+            <button
+              className="p-3 bg-white rounded-xl shadow-lg hover:shadow-xl hover:bg-gray-50 transition-all duration-200 hover:scale-110"
+              aria-label="View details"
+            >
+              <Eye className="w-5 h-5 text-gray-700" />
             </button>
           </Link>
         </div>
+
+        {/* Stock Status */}
+        <div className="absolute top-3 left-1/2 transform -translate-x-1/2">
+          {stock > 0 ? (
+            <div className="px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-full">
+              <div className="flex items-center gap-1">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-xs font-semibold text-gray-900">
+                  {stock} in stock
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div className="px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-full">
+              <div className="flex items-center gap-1">
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                <span className="text-xs font-semibold text-gray-900">
+                  Out of stock
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="space-y-3">
-        <div className="flex items-start justify-between">
-          <div>
-            <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300">
-              {category}
-            </span>
-            <h3 className="mt-2 text-lg font-semibold text-gray-900 dark:text-white line-clamp-1">
-              {name}
-            </h3>
-          </div>
-          <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-            ${price.toFixed(2)}
+      {/* Product Content */}
+      <div className="p-4 sm:p-5 md:p-6">
+        {/* Category */}
+        <div className="mb-3">
+          <span className="inline-block px-3 py-1 bg-linear-to-r from-blue-50 to-purple-50 text-blue-700 text-xs font-medium rounded-full border border-blue-100 capitalize">
+            {category}
           </span>
         </div>
 
-        <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
+        {/* Product Name */}
+        <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 line-clamp-1">
+          {name}
+        </h3>
+
+        {/* Description */}
+        <p className="text-gray-600 text-sm sm:text-base mb-4 line-clamp-2 min-h-10">
           {description}
         </p>
 
-        <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-dark-700">
-          <div className="flex items-center space-x-1">
-            <Star className="h-4 w-4 text-yellow-400 fill-current" />
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              {rating}
-            </span>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              ({reviews || 0} reviews)
+        {/* Price */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl sm:text-3xl font-bold text-gray-900">
+              ${(price || 0).toFixed(2)}
             </span>
           </div>
 
-          <div className="flex items-center space-x-2">
-            {stock > 0 ? (
-              <span className="text-sm text-green-600 dark:text-green-400">
-                In Stock
-              </span>
-            ) : (
-              <span className="text-sm text-red-600 dark:text-red-400">
-                Out of Stock
-              </span>
-            )}
-          </div>
+          {/* Add to Cart Button (Mobile) */}
+          <button className="lg:hidden p-2 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:opacity-90 transition-opacity">
+            <ShoppingCart className="w-5 h-5" />
+          </button>
         </div>
 
-        <Link href={`/products/${_id}`}>
-          <button className="w-full mt-4 btn-primary py-3">View Details</button>
+        {/* View Details Button */}
+        <Link href={`/products/${_id}`} className="block mt-4">
+          <button className="w-full py-3 px-4 bg-linear-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-300 shadow-md hover:shadow-lg">
+            View Details
+          </button>
         </Link>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
