@@ -1,10 +1,15 @@
 import Container from "@/components/ui/Container";
 import ProductCard from "@/components/ui/ProductCard";
 
+export const dynamic = "force-dynamic";
+
 const getProducts = async () => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products?limit=0`,
+      {
+        cache: "no-store",
+      },
     );
     const data = await res.json();
     return data?.products || [];

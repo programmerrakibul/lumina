@@ -1,33 +1,31 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import AddProductForm from "@/components/forms/AddProductForm";
 
 const AddProductPage = () => {
   return (
-    <>
-      <section className="py-10">
-        <Container>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-2xl mx-auto"
-          >
-            <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                Add New Product
-              </h1>
-              <p className="text-lg text-gray-600 dark:text-gray-400">
-                Fill in the details to add a new product to our collection
-              </p>
-            </div>
+    <section className="py-6 sm:py-8 md:py-10 bg-gray-50">
+      <Container>
+        <div className="max-w-2xl mx-auto px-4">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
+              Add New Product
+            </h1>
+            <p className="text-gray-600">Fill in the product details below</p>
+          </div>
 
+          {/* Form Card */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <AddProductForm />
-          </motion.div>
-        </Container>
-      </section>
-    </>
+          </div>
+
+          {/* Footer Note */}
+          <div className="mt-6 text-center text-sm text-gray-500">
+            <p>All fields marked with * are required</p>
+          </div>
+        </div>
+      </Container>
+    </section>
   );
 };
 
