@@ -1,270 +1,342 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { Users, Package, Truck, Shield, Award, Clock } from "lucide-react";
+import {
+  Users,
+  Package,
+  Truck,
+  Shield,
+  Award,
+  Clock,
+  Globe,
+  CheckCircle,
+  Zap,
+  TrendingUp,
+} from "lucide-react";
 import Container from "./Container";
 
 const stats = [
   {
     id: 1,
-    value: 50000,
-    suffix: "+",
+    value: "50000+",
     label: "Happy Customers",
-    description: "Served worldwide",
+    description: "Served worldwide with satisfaction",
     icon: Users,
-    color: "text-blue-500",
-    bgColor: "bg-blue-100 dark:bg-blue-900/30",
+    color: "text-blue-600",
+    bgColor: "bg-blue-100",
+    borderColor: "border-blue-200",
+    trend: "+12% this month",
   },
   {
     id: 2,
-    value: 10000,
-    suffix: "+",
+    value: "10000+",
     label: "Products Delivered",
     description: "Across 50+ countries",
     icon: Package,
-    color: "text-emerald-500",
-    bgColor: "bg-emerald-100 dark:bg-emerald-900/30",
+    color: "text-emerald-600",
+    bgColor: "bg-emerald-100",
+    borderColor: "border-emerald-200",
+    trend: "+8% growth",
   },
   {
     id: 3,
-    value: 98.7,
-    suffix: "%",
+    value: "98.7%",
     label: "Satisfaction Rate",
-    description: "Customer happiness",
+    description: "Customer happiness score",
     icon: Award,
-    color: "text-amber-500",
-    bgColor: "bg-amber-100 dark:bg-amber-900/30",
+    color: "text-amber-600",
+    bgColor: "bg-amber-100",
+    borderColor: "border-amber-200",
+    trend: "Industry leading",
   },
   {
     id: 4,
-    value: 24,
-    suffix: "/7",
+    value: "24/7",
     label: "Support Available",
     description: "Always here to help",
     icon: Clock,
-    color: "text-purple-500",
-    bgColor: "bg-purple-100 dark:bg-purple-900/30",
+    color: "text-purple-600",
+    bgColor: "bg-purple-100",
+    borderColor: "border-purple-200",
+    trend: "Instant response",
   },
   {
     id: 5,
-    value: 2,
-    suffix: " days",
+    value: "2 days",
     label: "Fast Delivery",
     description: "Average shipping time",
     icon: Truck,
-    color: "text-red-500",
-    bgColor: "bg-red-100 dark:bg-red-900/30",
+    color: "text-red-600",
+    bgColor: "bg-red-100",
+    borderColor: "border-red-200",
+    trend: "Faster than average",
   },
   {
     id: 6,
-    value: 365,
-    suffix: " days",
-    label: "Warranty",
-    description: "Product protection",
+    value: "365 days",
+    label: "Warranty Coverage",
+    description: "Product protection guarantee",
     icon: Shield,
-    color: "text-cyan-500",
-    bgColor: "bg-cyan-100 dark:bg-cyan-900/30",
+    color: "text-cyan-600",
+    bgColor: "bg-cyan-100",
+    borderColor: "border-cyan-200",
+    trend: "Full year coverage",
   },
 ];
 
-const Counter = ({ end, suffix, duration = 2 }) => {
-  const [count, setCount] = useState(0);
-  const nodeRef = useRef();
-  const isInView = useInView(nodeRef, { once: true });
-
-  useEffect(() => {
-    if (!isInView) return;
-
-    let start = 0;
-    const increment = end / (duration * 60); // 60fps
-
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= end) {
-        setCount(end);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 1000 / 60);
-
-    return () => clearInterval(timer);
-  }, [end, isInView, duration]);
-
-  return (
-    <span ref={nodeRef} className="text-4xl md:text-5xl font-bold">
-      {Math.floor(count)}
-      {suffix}
-    </span>
-  );
-};
+const globalStats = [
+  { value: "50+", label: "Countries", icon: Globe },
+  { value: "150+", label: "Cities", icon: TrendingUp },
+  { value: "24h", label: "Support", icon: Clock },
+  { value: "99%", label: "Uptime", icon: Zap },
+];
 
 const StatsSection = () => {
-  const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true });
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
-
   return (
-    <section className="py-16 md:py-24 bg-linear-to-b from-gray-50 to-white dark:from-dark-800 dark:to-dark-900">
-      <Container>
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              Numbers That Speak
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              We&apos;re proud of our journey and the impact we&apos;ve made on
-              our customers
-            </p>
-          </motion.div>
+    <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 bg-linear-to-b from-white to-gray-50 overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-50"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-50 rounded-full blur-3xl opacity-50"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-px bg-linear-to-r from-transparent via-gray-200 to-transparent"></div>
+      </div>
+
+      <Container className="relative">
+        {/* Section Header */}
+        <div className="text-center mb-10 sm:mb-12 md:mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-100 to-purple-100 text-gray-800 rounded-full border border-gray-200 mb-4 sm:mb-6">
+            <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+            <span className="text-sm sm:text-base font-semibold">
+              Our Impact in Numbers
+            </span>
+          </div>
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
+            <span className="block">Numbers That</span>
+            <span className="block bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Tell Our Story
+            </span>
+          </h2>
+
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Real metrics that showcase our commitment to excellence and customer
+            satisfaction
+          </p>
         </div>
 
-        <motion.div
-          ref={containerRef}
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {stats.map((stat) => (
-            <motion.div
-              key={stat.id}
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-              className="group relative"
-            >
-              <div className="relative bg-white dark:bg-dark-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-dark-700">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-16">
+          {stats.map((stat, index) => {
+            return (
+              <div
+                key={stat.id}
+                className={`group relative bg-white rounded-xl sm:rounded-2xl border-2 ${stat.borderColor} p-5 sm:p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 ${
+                  index % 2 === 0 ? "lg:mt-0" : "lg:mt-4"
+                }`}
+              >
                 {/* Icon */}
                 <div
-                  className={`${stat.bgColor} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
+                  className={`${stat.bgColor} w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300`}
                 >
-                  <stat.icon className={`h-8 w-8 ${stat.color}`} />
+                  <stat.icon
+                    className={`w-7 h-7 sm:w-8 sm:h-8 ${stat.color}`}
+                  />
                 </div>
 
                 {/* Counter */}
-                <div
-                  className={`text-4xl md:text-5xl font-bold ${stat.color} mb-2`}
-                >
-                  {isInView ? (
-                    <Counter end={stat.value} suffix={stat.suffix} />
-                  ) : (
-                    `0${stat.suffix}`
-                  )}
+                <div className="flex items-baseline gap-2 mb-2 sm:mb-3">
+                  <div
+                    className={`text-3xl sm:text-4xl md:text-5xl font-bold ${stat.color}`}
+                  >
+                    {stat.value}
+                  </div>
+                  <span className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                    {stat.trend}
+                  </span>
                 </div>
 
                 {/* Label */}
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2">
                   {stat.label}
                 </h3>
 
                 {/* Description */}
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-gray-600 text-sm sm:text-base">
                   {stat.description}
                 </p>
 
-                {/* Decorative Element */}
-                <div className="absolute top-0 right-0 w-24 h-24 opacity-10 group-hover:opacity-20 transition-opacity duration-300">
-                  <stat.icon className="w-full h-full" />
+                {/* Progress Bar (for satisfaction rate) */}
+                {stat.id === 3 && (
+                  <div className="mt-4">
+                    <div className="flex justify-between text-sm text-gray-600 mb-1">
+                      <span>Satisfaction Score</span>
+                      <span>{stat.value}%</span>
+                    </div>
+                    <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-linear-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-1000 ease-out"></div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Hover Effect */}
+                <div
+                  className={`absolute inset-0 ${stat.bgColor} opacity-0 group-hover:opacity-5 rounded-xl sm:rounded-2xl transition-opacity duration-300 pointer-events-none`}
+                ></div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Global Reach Banner */}
+        <div className="relative bg-linear-to-r from-blue-600 to-purple-600 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `radial-gradient(circle at 25px 25px, white 2%, transparent 0%), 
+                              radial-gradient(circle at 75px 75px, white 2%, transparent 0%)`,
+                backgroundSize: "100px 100px",
+              }}
+            ></div>
+          </div>
+
+          <div className="relative p-6 sm:p-8 md:p-10 lg:p-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+              {/* Left Content */}
+              <div>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full mb-6">
+                  <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                  <span className="text-sm sm:text-base font-semibold text-white">
+                    Global Presence
+                  </span>
                 </div>
 
-                {/* Hover Border */}
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary-500/20 rounded-2xl transition-all duration-300 pointer-events-none" />
-              </div>
-
-              {/* Animated Background Effect */}
-              <div className="absolute inset-0 bg-linear-to-r from-transparent via-primary-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 -z-10" />
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Global Reach Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-20 bg-linear-to-r from-primary-600 to-purple-600 rounded-3xl p-8 md:p-12 text-white overflow-hidden"
-        >
-          <div className="relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h3 className="text-3xl md:text-4xl font-bold mb-4">
-                  Global Reach, Local Touch
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
+                  Worldwide Service,
+                  <br />
+                  <span className="text-blue-100">Local Care</span>
                 </h3>
-                <p className="text-lg text-white/90 mb-8">
-                  We deliver happiness to customers across 50+ countries while
+
+                <p className="text-blue-100 text-base sm:text-lg mb-6 sm:mb-8">
+                  We deliver exceptional service across 50+ countries while
                   maintaining the personal touch of a local business.
                 </p>
 
-                <div className="flex flex-wrap gap-4">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse" />
-                    <span>Real-time Tracking</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 rounded-full bg-yellow-400 animate-pulse" />
-                    <span>Secure Payments</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" />
-                    <span>Easy Returns</span>
-                  </div>
+                {/* Features List */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {[
+                    { text: "Real-time tracking", icon: CheckCircle },
+                    { text: "Secure payments", icon: Shield },
+                    { text: "Easy returns", icon: Truck },
+                    { text: "Multi-currency", icon: TrendingUp },
+                  ].map((feature, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <feature.icon className="w-5 h-5 text-green-300" />
+                      <span className="text-white text-sm sm:text-base">
+                        {feature.text}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
-                {[
-                  { value: "50+", label: "Countries" },
-                  { value: "150+", label: "Cities" },
-                  { value: "24h", label: "Support" },
-                  { value: "99%", label: "Uptime" },
-                ].map((item, index) => (
-                  <div key={index} className="text-center">
-                    <div className="text-3xl md:text-4xl font-bold mb-1">
+              {/* Right Content - Global Stats */}
+              <div className="grid grid-cols-2 gap-4 sm:gap-6">
+                {globalStats.map((item, index) => (
+                  <div
+                    key={index}
+                    className="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6 text-center border border-white/20"
+                  >
+                    <div
+                      className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3 sm:mb-4`}
+                    >
+                      <item.icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                    </div>
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1">
                       {item.value}
                     </div>
-                    <div className="text-sm text-white/80">{item.label}</div>
+                    <div className="text-blue-100 text-sm sm:text-base">
+                      {item.label}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Background Pattern */}
-          <div className="absolute top-0 right-0 w-64 h-64 opacity-10">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-              <path
-                fill="currentColor"
-                d="M45.5,-62.6C58.5,-53.5,68.2,-38.1,72.5,-21.8C76.7,-5.5,75.5,11.8,69.7,27.5C63.9,43.2,53.6,57.4,40.1,65.4C26.6,73.5,9.9,75.4,-4.4,73.5C-18.7,71.6,-32.3,65.9,-43.4,56.6C-54.5,47.3,-63.1,34.4,-67.5,19.9C-71.9,5.4,-72.1,-10.7,-67.5,-25.4C-63,-40.1,-53.8,-53.4,-41.3,-62.6C-28.7,-71.9,-12.8,-77.1,1.9,-79.9C16.6,-82.7,33.2,-83.1,45.5,-62.6Z"
-                transform="translate(100 100)"
-              />
-            </svg>
+          {/* Floating Elements */}
+          <div className="absolute -top-6 -right-6 w-32 h-32 bg-white/5 rounded-full blur-xl"></div>
+          <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-white/5 rounded-full blur-xl"></div>
+        </div>
+
+        {/* Additional Metrics */}
+        <div className="mt-12 sm:mt-16 bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 shadow-lg border border-gray-200">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {[
+              {
+                title: "Customer Retention",
+                value: "92%",
+                description: "Clients who return within 6 months",
+                progress: 92,
+                color: "from-blue-500 to-cyan-500",
+              },
+              {
+                title: "Order Accuracy",
+                value: "99.5%",
+                description: "Perfect order fulfillment rate",
+                progress: 99.5,
+                color: "from-emerald-500 to-green-500",
+              },
+              {
+                title: "Response Time",
+                value: "< 2 min",
+                description: "Average support response time",
+                progress: 95,
+                color: "from-purple-500 to-pink-500",
+              },
+            ].map((metric, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+                  {metric.value}
+                </div>
+                <h4 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
+                  {metric.title}
+                </h4>
+                <p className="text-gray-600 text-sm sm:text-base mb-4">
+                  {metric.description}
+                </p>
+                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full bg-linear-to-r ${metric.color} rounded-full transition-all duration-1000 ease-out`}
+                  ></div>
+                </div>
+              </div>
+            ))}
           </div>
-        </motion.div>
+        </div>
+
+        {/* Trust Indicators */}
+        <div className="mt-12 sm:mt-16 text-center">
+          <p className="text-gray-600 text-sm sm:text-base mb-6">
+            Trusted by industry leaders
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 md:gap-12">
+            {[
+              { name: "Visa", color: "text-blue-700" },
+              { name: "Mastercard", color: "text-red-600" },
+              { name: "PayPal", color: "text-blue-500" },
+              { name: "Stripe", color: "text-purple-600" },
+              { name: "SSL", color: "text-green-600" },
+            ].map((company, index) => (
+              <div
+                key={index}
+                className={`text-xl sm:text-2xl font-bold ${company.color} opacity-80 hover:opacity-100 transition-opacity`}
+              >
+                {company.name}
+              </div>
+            ))}
+          </div>
+        </div>
       </Container>
     </section>
   );
